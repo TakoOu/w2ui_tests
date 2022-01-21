@@ -25,7 +25,7 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.7
 
-// <reference types="sizzle" />
+/// <reference types="sizzle" />
 /// <reference path="JQueryStatic.d.ts" />
 /// <reference path="JQuery.d.ts" />
 /// <reference path="misc.d.ts" />

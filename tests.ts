@@ -1,3 +1,5 @@
+$(function() {
+
 $('#myLayout').w2layout({
     name: 'myLayout',
     panels: [
@@ -233,4 +235,5 @@ w2popup.open({
     title: 'Popup Title HTML',
     body: 'Body HTML',
     buttons: 'Buttons HTML'
+});
 });
