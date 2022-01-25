@@ -1,11 +1,10 @@
-// Type definitions for w2ui 1.4.3
+// Type definitions for w2ui 1.5.0
 // Project: http://w2ui.com/
 // Definitions by: Valentin Robert <https://github.com/Ptival>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
 
 /// <reference types="jquery" />
-// <reference path="types/jquery/index.d.ts" />
 
 interface JQuery<TElement = HTMLElement> {
     w2layout(options: Object): W2UI.W2Layout;
@@ -19,10 +18,93 @@ interface JQuery<TElement = HTMLElement> {
     w2overlay(options: W2UI.W2Overlay.Options): JQuery<TElement>;
 }
 
-declare var w2popup: W2UI.W2Popup
-declare var w2ui: W2UI.W2UI
+declare var w2popup: W2UI.W2Popup;
+declare var w2ui: W2UI.W2UI;
+declare var w2utils: W2UI.W2Utils;
 
 declare namespace W2UI {
+    type TransitionType = 'slide-left' | 'slide-right' | 'slide-down' | 'slide-up' | 'flip-left' | 'flip-right' | 'flip-down' | 'flip-up' | 'pop-in' | 'pop-out';
+    interface W2Utils {
+        obj: {
+            version: string;
+            settings: {
+                [key: string]: any;
+            };
+        }
+        tmp: Object;
+        isBin(value: any): boolean;
+        isInt(value: any): boolean;
+        isFloat(value: any): boolean;
+        isMoney(value: any): boolean;
+        isHex(value: any): boolean;
+        isAlphaNumeric(value: any): boolean;
+        isEmail(value: any): boolean;
+        isIpAddress(value: any): boolean;
+        isDate(value: any, format?: string, retData?: boolean): boolean | Date;
+        isTime(value: any, retTime?: boolean): boolean | { hours: number, minutes: number, seconds: number };
+        isDateTime(value: any, format?: string, retData?: boolean): boolean | Date;
+        isInt(value: any, format?: string, retData?: boolean): boolean | Date;
+        age(dateStr: string | Date | number): string;
+        interval(value: number): string;
+        date(dateStr: string | Date | number): string;
+        formatSize(sizeStr: string | number): string;
+        formatNumber(value: string | number, fraction?: number, useGrouping?: boolean): string;
+        formatDate(dateStr: string | Date | number, format?: string): string;
+        formatTime(dateStr: string | Date | number, format?: string): string;
+        formatDateTime(dateStr: string | Date | number, format?: string): string;
+        stripTags(html: Object): Object;
+        stripTags(html: string): string;
+        encodeTags(html: Object): Object;
+        encodeTags(html: string): string;
+        decodeTags(html: Object): Object;
+        decodeTags(html: string): string;
+        escapeId(id: string): string;
+        base64encode(input: any): string;
+        base64decode(input: any): string;
+        md5(input: any): string;
+        transition(div_old: HTMLElement, div_new: HTMLElement, type?: TransitionType, callback?: () => void): void;
+        lock(box: HTMLElement | string, msg: {msg?: string, spinner?: boolean} | string, spinner?: boolean): void;
+        unlock(box: HTMLElement | string, speed?: number): void;
+        /**
+         * Used in w2popup, w2grid, w2form, w2layout
+         * should be called with .call(...) method
+         */
+        message(
+            where: {
+                box?: HTMLElement, 
+                param?: HTMLElement | string, 
+                path?: string, 
+                title?: string, 
+                body?: string}, 
+            options?: {
+                width?: number, 
+                height?: number,
+                html?: string,
+                body?: string, 
+                buttons?: string, 
+                hideOnClick?: boolean,
+                on?: (type: string, event: any) => void, 
+                onOpen?: (event: any) => void, 
+                onClose?: (event: any) => void
+            }): void;
+        getSize(element: HTMLElement | string, type: 'top' | 'bottom' | 'left' | 'right' | 'width' | 'height' | '+width' | '+height'): number;
+        getStrWidth(string: string, styles?: string): number;
+        lang(phrase: string): string;
+        locale(locale?: string | Object, callback?: () => void): void;
+        scrollBarSize(): number;
+        checkName(params?: {name: string}, component?: string): boolean;
+        checkUniqueId(id: string, items: {id: string} | {id: string}[], itemsDescription?: string, objName?: string): boolean;
+        parseRoute(route: string): {path: RegExp, keys: {name: string, optional: boolean}[]};
+        cssPrefix(field: string | Object, value?: any, returnString?: boolean): string;
+        getCursorPosition(input: HTMLElement): number;
+        setCursorPosition(input: HTMLElement, pos: number, posEnd?: number): void;
+        testLocaleStorage(): boolean;
+        parseColor(string: string): {r:number, g: number, b: number, a: number} | null;
+        hsv2rgb(h: number, s: number, v: number, a?: number): {r:number, g: number, b: number, a: number};
+        rgb2hsv(r: number, g: number, b: number, a?: number): {r:number, g: number, b: number, a: number};
+        tooltip(msg: string, options?: {showOn?: string, hideOn?: string}): string;
+        naturalCompare(a: any, b: any): 1 | -1 | 0;
+    }
 
     interface W2Event {
         done: (event: W2Event) => void;
@@ -37,7 +119,7 @@ declare namespace W2UI {
         stopPropagation(): void;
     }
 
-    type W2EventHandler = ((e: W2Event) => void) | ((id: string, e: W2Event) => void)
+    type W2EventHandler = ((event: W2Event) => void) | ((id: string, event: W2Event) => void)
 
     /* Primitives (first alphabetically, then by documentation order) */
 
